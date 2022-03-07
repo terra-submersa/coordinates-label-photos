@@ -1,4 +1,4 @@
-#Coordinates label photos
+# Coordinates label photos
 
 **The problem we are trying to solve:** On the one hand, we have a photos with unlabeled GPS data, but only a timestamp.
 In the other hand, we have a GPS track, with coordinates and timestamp. 
