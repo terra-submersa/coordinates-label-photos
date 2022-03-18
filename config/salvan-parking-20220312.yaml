@@ -1,0 +1,11 @@
+input:
+  - name: fenix 5
+    gpx: /Users/alex/terra-submersa/gps/salvan-parking-20220312/input/fenix5-activity_8443960777.gpx
+  - name: gpsmap 86i
+    gpx: /Users/alex/terra-submersa/gps/salvan-parking-20220312/input/gpsmap85i-activity_8445614799.gpx
+  - name: gpsmap 86i-rinex
+    csv: /Users/alex/terra-submersa/gps/salvan-parking-20220312/input/grmn071n52.csv
+
+output:
+  plot: /Users/alex/terra-submersa/gps/salvan-parking-20220312/output/gpx-comparison.jpeg
+

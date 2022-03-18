@@ -1,4 +1,5 @@
 import glob
+import logging
 import os
 
 import piexif
@@ -19,12 +20,14 @@ def get_photo_timestamp(filename: str) -> datetime:
 
 
 def calibrate_photo(photos: list[str], track_coords: CoordinatesCollection) -> CoordinatesCollection:
+    logging.info('Calibrating %d photos' % len(photos))
+
     photo_coords = []
     for p in photos:
         timestamp = get_photo_timestamp(p)
         coords = track_coords.interpolate_position(timestamp)
         set_photo_exif(filename=p, ifd='GPS', data=coords.exif_gps())
-        print('Saved: %s\t%s' % (p, coords))
+        # print('Saved: %s\t%s' % (p, coords))
         coords.label = os.path.splitext(os.path.basename(p))[0]
         photo_coords.append(coords)
     return CoordinatesCollection(photo_coords)

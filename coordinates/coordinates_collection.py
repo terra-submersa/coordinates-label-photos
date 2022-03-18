@@ -15,6 +15,12 @@ class CoordinatesCollection:
     def end_time(self):
         return self.points[-1].timestamp
 
+    def add(self, other):
+        self.points.extend(other.points)
+
+    def __len__(self):
+        return len(self.points)
+
     def interpolate_position(self, timestamp: datetime):
         if timestamp < self.start_time() or timestamp >= self.end_time():
             return None
@@ -49,6 +55,10 @@ class CoordinatesCollection:
             Coordinates(boundaries[1].lat, boundaries[0].lon)), \
                Coordinates(boundaries[0].lat, boundaries[0].lon).distance(
                    Coordinates(boundaries[0].lat, boundaries[1].lon))
+
+    def label_all(self, label:str):
+        for p in self.points:
+            p.label = label
 
     @staticmethod
     def __interpolate(alpha, v0, v1):

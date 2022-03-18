@@ -1,0 +1,7 @@
+input:
+  image_directory: /Users/alex/terra-submersa/gps/salvan-wall-20220312/images
+  gpx: /Users/alex/terra-submersa/gps/salvan-wall-20220312/input/fenix5-activity_8442899378.gpx
+
+output:
+  photo_position_plot: /Users/alex/terra-submersa/gps/salvan-wall-20220312/output/fenix5/images-positions.jpeg
+  track_plot: /Users/alex/terra-submersa/gps/salvan-wall-20220312/output/fenix5/track-positions.jpeg
