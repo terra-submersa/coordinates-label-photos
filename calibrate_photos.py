@@ -8,8 +8,8 @@ from yaml import CLoader as Loader
 
 if __name__ == '__main__':
     logging.basicConfig( level=logging.DEBUG)
-    #config_file = 'config/salvan-wall-20220312-gpsmap86i.yaml'
-    config_file = 'config/salvan-wall-20220312-fenix5.yaml'
+    config_file = 'config/salvan-wall-20220312-gpsmap86i.yaml'
+    #config_file = 'config/salvan-wall-20220312-fenix5.yaml'
     with open(config_file, 'r') as f:
         conf = yaml.load(f.read(), Loader=Loader)
     photos = list_photo_filenames(conf['input']['image_directory'])
