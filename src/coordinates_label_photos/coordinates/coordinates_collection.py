@@ -1,12 +1,12 @@
-from datetime import datetime, timezone
+from datetime import datetime
 
-from coordinates import Coordinates
+from coordinates_label_photos.coordinates import Coordinates
 
 
 class CoordinatesCollection:
-    points: list[Coordinates]
+    points: 'list[Coordinates]'
 
-    def __init__(self, points: list[Coordinates]):
+    def __init__(self, points: 'list[Coordinates]'):
         self.points = points
 
     def start_time(self):
@@ -53,10 +53,10 @@ class CoordinatesCollection:
         boundaries = self.lat_lon_boundaries()
         return Coordinates(boundaries[0].lat, boundaries[0].lon).distance(
             Coordinates(boundaries[1].lat, boundaries[0].lon)), \
-               Coordinates(boundaries[0].lat, boundaries[0].lon).distance(
-                   Coordinates(boundaries[0].lat, boundaries[1].lon))
+        Coordinates(boundaries[0].lat, boundaries[0].lon).distance(
+            Coordinates(boundaries[0].lat, boundaries[1].lon))
 
-    def label_all(self, label:str):
+    def label_all(self, label: str):
         for p in self.points:
             p.label = label
 

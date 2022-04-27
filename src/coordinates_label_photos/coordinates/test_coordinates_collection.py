@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
 from unittest import TestCase
 
-from coordinates import Coordinates
-from gpx import gpx_parser
+from coordinates_label_photos.coordinates import Coordinates
+from coordinates_label_photos.gpx import gpx_parser
 
 
 class TestCoordinatesCollection(TestCase):
@@ -13,7 +13,7 @@ class TestCoordinatesCollection(TestCase):
         got = self.coords_collection.start_time()
         self.assertEqual(datetime(2022, 3, 6, 10, 28, 49, tzinfo=timezone.utc), got)
 
-    def test_start_time(self):
+    def test_end_time(self):
         got = self.coords_collection.end_time()
         self.assertEqual(datetime(2022, 3, 6, 10, 30, 13, tzinfo=timezone.utc), got)
 

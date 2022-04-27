@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from unittest import TestCase
 
-from photos import get_photo_timestamp
+from coordinates_label_photos.photos import get_photo_timestamp
 
 
 class TestPhoto(TestCase):

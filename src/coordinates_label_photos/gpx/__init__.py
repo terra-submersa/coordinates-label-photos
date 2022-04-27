@@ -1,9 +1,10 @@
 import csv
+import logging
 
 import gpxpy as gpxpy
-from coordinates import Coordinates
-from coordinates.coordinates_collection import CoordinatesCollection
-import logging
+
+from coordinates_label_photos.coordinates import Coordinates
+from coordinates_label_photos.coordinates.coordinates_collection import CoordinatesCollection
 
 
 def gpx_parser(filename) -> CoordinatesCollection:
@@ -26,21 +27,22 @@ def gpx_parser(filename) -> CoordinatesCollection:
             len(collect), collect.start_time(), collect.end_time()))
         return collect
 
-def csv_parser(filename)-> CoordinatesCollection:
+
+def csv_parser(filename) -> CoordinatesCollection:
     logging.info('Loading CSV track from %s' % filename)
     with open(filename, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         coords = []
 
         for row in reader:
-             coords.append(
-                 Coordinates(
-                     lat=float(row['latitude_decimal_degree']),
-                     lon=float(row['longitude_decimal_degree']),
-                     elevation=float(row['ellipsoidal_height_m']),
-                     timestamp=None,
-                 )
-             )
+            coords.append(
+                Coordinates(
+                    lat=float(row['latitude_decimal_degree']),
+                    lon=float(row['longitude_decimal_degree']),
+                    elevation=float(row['ellipsoidal_height_m']),
+                    timestamp=None,
+                )
+            )
         collect = CoordinatesCollection(coords)
         logging.info('Loaded CSV with %d track points between %s and %s' % (
             len(collect), collect.start_time(), collect.end_time()))

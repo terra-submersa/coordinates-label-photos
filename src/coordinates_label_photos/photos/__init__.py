@@ -1,14 +1,15 @@
 import glob
-import logging
 import os
 
 import piexif
 from datetime import datetime
 
-from coordinates.coordinates_collection import CoordinatesCollection
+from tqdm import tqdm
+
+from coordinates_label_photos.coordinates.coordinates_collection import CoordinatesCollection
 
 
-def list_photo_filenames(directory: str) -> list[str]:
+def list_photo_filenames(directory: str) -> 'list[str]':
     return glob.glob('%s/*.jpeg' % directory)
 
 
@@ -19,11 +20,9 @@ def get_photo_timestamp(filename: str) -> datetime:
     return datetime.strptime(time + time_offset, '%Y:%m:%d %H:%M:%S%z')
 
 
-def calibrate_photo(photos: list[str], track_coords: CoordinatesCollection) -> CoordinatesCollection:
-    logging.info('Calibrating %d photos' % len(photos))
-
+def calibrate_photo(photos: 'list[str]', track_coords: CoordinatesCollection) -> CoordinatesCollection:
     photo_coords = []
-    for p in photos:
+    for p in tqdm(photos, desc="Calibrating photos"):
         timestamp = get_photo_timestamp(p)
         coords = track_coords.interpolate_position(timestamp)
         set_photo_exif(filename=p, ifd='GPS', data=coords.exif_gps())

@@ -1,7 +1,7 @@
 import logging
 
-from coordinates import Coordinates
-from coordinates.coordinates_collection import CoordinatesCollection
+from coordinates_label_photos.coordinates import Coordinates
+from coordinates_label_photos.coordinates.coordinates_collection import CoordinatesCollection
 from PIL import Image, ImageDraw, ImageFont
 
 
@@ -40,8 +40,6 @@ def report_image_coordinates_collections(
 
         def color(c: Coordinates):
             return colors[c.label]
-
-
     else:
         def color(c: Coordinates):
             return 'red'
