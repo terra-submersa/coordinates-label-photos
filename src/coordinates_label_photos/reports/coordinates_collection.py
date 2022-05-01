@@ -4,6 +4,29 @@ from coordinates_label_photos.coordinates import Coordinates
 from coordinates_label_photos.coordinates.coordinates_collection import CoordinatesCollection
 from PIL import Image, ImageDraw, ImageFont
 
+# From Color Brewer
+_color_brewer_set3 = {
+    3: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)'],
+    4: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)', 'rgb(251,128,114)'],
+    5: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)', 'rgb(251,128,114)', 'rgb(128,177,211)'],
+    6: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)', 'rgb(251,128,114)', 'rgb(128,177,211)',
+        'rgb(253,180,98)'],
+    7: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)', 'rgb(251,128,114)', 'rgb(128,177,211)',
+        'rgb(253,180,98)', 'rgb(179,222,105)'],
+    8: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)', 'rgb(251,128,114)', 'rgb(128,177,211)',
+        'rgb(253,180,98)', 'rgb(179,222,105)', 'rgb(252,205,229)'],
+    9: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)', 'rgb(251,128,114)', 'rgb(128,177,211)',
+        'rgb(253,180,98)', 'rgb(179,222,105)', 'rgb(252,205,229)', 'rgb(217,217,217)'],
+    10: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)', 'rgb(251,128,114)', 'rgb(128,177,211)',
+         'rgb(253,180,98)', 'rgb(179,222,105)', 'rgb(252,205,229)', 'rgb(217,217,217)', 'rgb(188,128,189)'],
+    11: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)', 'rgb(251,128,114)', 'rgb(128,177,211)',
+         'rgb(253,180,98)', 'rgb(179,222,105)', 'rgb(252,205,229)', 'rgb(217,217,217)', 'rgb(188,128,189)',
+         'rgb(204,235,197)'],
+    12: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)', 'rgb(251,128,114)', 'rgb(128,177,211)',
+         'rgb(253,180,98)', 'rgb(179,222,105)', 'rgb(252,205,229)', 'rgb(217,217,217)', 'rgb(188,128,189)',
+         'rgb(204,235,197)', 'rgb(255,237,111)']
+}
+
 
 def report_image_coordinates_collections(
         coords: CoordinatesCollection,
@@ -31,7 +54,9 @@ def report_image_coordinates_collections(
 
     if color_by_label:
         labels = {c.label for c in coords.points}
-        color_scale = ['red', 'blue', 'green']
+        if len(labels) > 12:
+            raise Exception('Too many labels (%d) or not enough colors' % len(labels))
+        color_scale = _color_brewer_set3.get(max(len(labels), 3))
         colors = {}
         for i, l in enumerate(labels):
             colors[l] = color_scale[i]

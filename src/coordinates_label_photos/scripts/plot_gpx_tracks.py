@@ -18,7 +18,6 @@ def main():
     args = parser.parse_args()
 
     all_coords = CoordinatesCollection([])
-    print(args)
     for e in getattr(args, 'gpx'):
         tmp = e.split(':', maxsplit=2)
         label = tmp[0]

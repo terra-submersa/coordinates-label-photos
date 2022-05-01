@@ -15,14 +15,24 @@ To label all images from `/path/to/images-directory/*` with the GPX track points
     coordinates-label-photos --gpx=/path/to/your.gpx --images=/path/to/images-directory
 
 With optional arguments:
-  * `--report-photo-position=/path/to/report-photo-positions.jpeg` to generate an image with photo positions
+  * `--report-photo-locations=/path/to/report-photo-locations.jpeg` to generate an image with photo locations
   * `--report-track=/path/to/report-track.jpeg` to generate an image with the track points
+
+## Other Utils
+
+A couple of side tools may come handy in some situations
 
 ### Comparing GPX tracks
 
-A side tool is available to compared various .gpx tracks (useful to plot the same track from different GPS)
+Compare various .gpx tracks (useful to plot the same track from different GPS)
 
     plot-gpx-tracks --gpx="gps A:/path/to/a.gpx"  --gpx="gps B:/path/to/b.gpx" --output=/path/to/plot.jpeg
+
+### Extracting photos coordinates to a GPX file
+
+From a directory containing images (with GPS locations), create a GPX file 
+
+    images-to-gpx --output=/path/to/a.gpx  --images=/path/to/images-directory
 
 ### License 
 MIT
