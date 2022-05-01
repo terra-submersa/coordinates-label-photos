@@ -37,7 +37,7 @@ def report_image_coordinates_collections(
     logging.info('Saving report in %s' % filename)
     boundaries = coords.lat_lon_boundaries()
     dim_lat = boundaries[1].lat - boundaries[0].lat
-    dim_lon = boundaries[0].lon - boundaries[1].lon
+    dim_lon = boundaries[1].lon - boundaries[0].lon
     dimensions = coords.dimensions()
     if dimensions[0] > dimensions[1]:
         width = max_dim * 0.8
@@ -72,7 +72,7 @@ def report_image_coordinates_collections(
     prev = None
     for c in coords.points:
         y = margin + int((c.lat - boundaries[0].lat) / dim_lat * height)
-        x = margin + int((c.lon - boundaries[1].lon) / dim_lon * width)
+        x = margin + int((c.lon - boundaries[0].lon) / dim_lon * width)
         if not color_by_label and c.label is not None:
             draw.text((x + 4, y + 4), c.label, fill='black', font=font)
         draw.ellipse((x - 2, y - 2, x + 2, y + 2), fill=color(c))
