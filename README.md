@@ -10,9 +10,9 @@ Our purpose is to interpolate the GPS position from the track, with the photo ti
     pip install coordinates-label-photos
 
 ## Run
-To label all images from `/path/to/images-directory/*` with the GPX track points from `path/to/your.gpx`:
+To label all images from `/path/to/images-directory/*` with the GPX track points from `path/to/your.gpx` or LLH (Reach RS 2) format:
 
-    coordinates-label-photos --gpx=/path/to/your.gpx --images=/path/to/images-directory
+    coordinates-label-photos --coords=/path/to/your.gpx --images=/path/to/images-directory
 
 With optional arguments:
   * `--report-photo-locations=/path/to/report-photo-locations.jpeg` to generate an image with photo locations
