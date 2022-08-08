@@ -2,12 +2,12 @@ from datetime import datetime, timezone
 from unittest import TestCase
 
 from coordinates_label_photos.coordinates import Coordinates
-from coordinates_label_photos.gpx import gpx_parser
+from coordinates_label_photos.parsers import coords_parser
 
 
 class TestCoordinatesCollection(TestCase):
     filename = 'resources/photo-gps/track.gpx'
-    coords_collection = gpx_parser(filename)
+    coords_collection = coords_parser(filename)
 
     def test_start_time(self):
         got = self.coords_collection.start_time()

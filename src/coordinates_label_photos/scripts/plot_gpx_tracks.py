@@ -1,7 +1,7 @@
 import argparse
 import logging
 
-from coordinates_label_photos.gpx import gpx_parser
+from coordinates_label_photos.parsers import coords_parser
 from coordinates_label_photos.reports.coordinates_collection import CoordinatesCollection, \
     report_image_coordinates_collections
 
@@ -22,7 +22,7 @@ def main():
         tmp = e.split(':', maxsplit=2)
         label = tmp[0]
         gpx_file = tmp[1]
-        cs = gpx_parser(gpx_file)
+        cs = coords_parser(gpx_file)
         cs.label_all(label)
         all_coords.add(cs)
     report_image_coordinates_collections(all_coords, getattr(args, 'output'), 1000, color_by_label=True)

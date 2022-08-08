@@ -10,20 +10,40 @@ from coordinates_label_photos.coordinates.coordinates_collection import Coordina
 
 
 def list_photo_filenames(directory: str) -> 'list[str]':
-    return glob.glob('%s/*.jpeg' % directory)
+    ls = glob.glob('%s/*.jpeg' % directory)
+    ls.extend(glob.glob('%s/*.jpg' % directory))
+    ls.extend(glob.glob('%s/*.JPEG' % directory))
+    ls.extend(glob.glob('%s/*.JPG' % directory))
+    return ls
 
 
-def get_photo_timestamp(filename: str) -> datetime:
+def get_photo_timestamp(filename: str, default_time_offset: str = None) -> datetime:
+    """
+    ¨¨Get the timestamp from the EXIF data stored in the photo under filename
+    :param filename:
+    :type filename: str
+    :param default_time_offset: set the photo time zone delta (format '+2:00') in case the picture is not annotated (no GPS signal)
+    :type default_time_offset: str
+    :rtype: datetime
+    """
     exif_dict = get_photo_exif(filename)
     time = exif_dict['Exif'][piexif.ExifIFD.DateTimeOriginal].decode("utf-8")
-    time_offset = exif_dict['Exif'][piexif.ExifIFD.OffsetTimeOriginal].decode("utf-8")
-    return datetime.strptime(time + time_offset, '%Y:%m:%d %H:%M:%S%z')
+    if piexif.ExifIFD.OffsetTimeOriginal not in exif_dict['Exif']:
+        if default_time_offset is None:
+            time_offset = '+0000'
+        else:
+            time_offset =  default_time_offset
+    else:
+        time_offset = exif_dict['Exif'][piexif.ExifIFD.OffsetTimeOriginal].decode("utf-8")
+
+    return datetime.strptime(time + ' ' + time_offset, '%Y:%m:%d %H:%M:%S %z')
 
 
-def calibrate_photo(photos: 'list[str]', track_coords: CoordinatesCollection) -> CoordinatesCollection:
+def calibrate_photo(photos: 'list[str]', track_coords: CoordinatesCollection,
+                    default_time_offset: str) -> CoordinatesCollection:
     photo_coords = []
     for p in tqdm(photos, desc="Calibrating photos"):
-        timestamp = get_photo_timestamp(p)
+        timestamp = get_photo_timestamp(p, default_time_offset)
         coords = track_coords.interpolate_position(timestamp)
         set_photo_exif(filename=p, ifd='GPS', data=coords.exif_gps())
         # print('Saved: %s\t%s' % (p, coords))
