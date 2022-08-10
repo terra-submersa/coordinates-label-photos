@@ -20,7 +20,12 @@ With optional arguments:
 
 ## Other Utils
 
-A couple of side tools may come handy in some situations
+A few side tools may come handy in some situations
+
+### Removing GPS infomration from pictures
+
+    coordinates-clear-photos --images=/path/to/images-directory
+
 
 ### Selecting the closest images to a point list
 

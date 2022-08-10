@@ -58,6 +58,20 @@ def set_photo_exif(filename: str, ifd: str, data: dict):
     exif_bytes = piexif.dump(exif_dict)
     piexif.insert(exif_bytes, filename)
 
+def clear_photo_exif(filename: str, ifd: str):
+    """
+    Removes a whole IFD branch from the exif and saves the file back
+    :param filename: the image location
+    :type filename: str
+    :param ifd: the key of the sub IFD map
+    :type ifd: str
+    """
+    exif_dict = get_photo_exif(filename)
+    del exif_dict[ifd]
+    exif_bytes = piexif.dump(exif_dict)
+    piexif.insert(exif_bytes, filename)
+
+
 
 def get_photo_exif(filename: str):
     return piexif.load(filename)
