@@ -1,10 +1,9 @@
 import csv
 import logging
+import os
 from datetime import datetime, timezone
-from time import strptime
 
 import gpxpy as gpxpy
-import os
 
 from coordinates_label_photos.coordinates import Coordinates
 from coordinates_label_photos.coordinates.coordinates_collection import CoordinatesCollection

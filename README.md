@@ -22,15 +22,26 @@ With optional arguments:
 
 A couple of side tools may come handy in some situations
 
+### Selecting the closest images to a point list
+
+During acquisition, excessive number of pictures can be taken (when strolling outside of the perimeter or moving not fast enough).
+If we provide a list of positions where the images should have been taken, we can select only the closest images to each of those position.
+
+    select-closest-photos \
+         --coords=/path/to/perfect-positions.csv  \
+         --images=/source/image/directory \
+         --dest=/selected/image/directory \
+         --report=/path/to/report.png
+
 ### Comparing GPX tracks
 
-Compare various .gpx tracks (useful to plot the same track from different GPS)
+Compare various coords tracks, from .gpx, .llh, .pos (useful to plot the same track from different GPS):
 
-    plot-gpx-tracks --gpx="gps A:/path/to/a.gpx"  --gpx="gps B:/path/to/b.gpx" --output=/path/to/plot.jpeg
+    plot-coords-tracks --gpx="gps A:/path/to/a.gpx"  --gpx="gps B:/path/to/b.gpx" --output=/path/to/plot.jpeg
 
 ### Extracting photos coordinates to a GPX file
 
-From a directory containing images (with GPS locations), create a GPX file 
+From a directory containing images (with GPS locations), create a GPX file:
 
     images-to-gpx --output=/path/to/a.gpx  --images=/path/to/images-directory
 

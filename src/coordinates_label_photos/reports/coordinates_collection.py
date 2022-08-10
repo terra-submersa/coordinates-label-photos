@@ -5,7 +5,7 @@ from coordinates_label_photos.coordinates.coordinates_collection import Coordina
 from PIL import Image, ImageDraw, ImageFont
 
 # From Color Brewer
-_color_brewer_set3 = {
+color_brewer_set3 = {
     3: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)'],
     4: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)', 'rgb(251,128,114)'],
     5: ['rgb(141,211,199)', 'rgb(255,255,179)', 'rgb(190,186,218)', 'rgb(251,128,114)', 'rgb(128,177,211)'],
@@ -56,7 +56,7 @@ def report_image_coordinates_collections(
         labels = {c.label for c in coords.points}
         if len(labels) > 12:
             raise Exception('Too many labels (%d) or not enough colors' % len(labels))
-        color_scale = _color_brewer_set3.get(max(len(labels), 3))
+        color_scale = color_brewer_set3.get(max(len(labels), 3))
         colors = {}
         for i, l in enumerate(labels):
             colors[l] = color_scale[i]

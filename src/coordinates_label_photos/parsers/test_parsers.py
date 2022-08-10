@@ -6,7 +6,8 @@ from coordinates_label_photos.parsers import emlid_fwf_line_parser
 
 class TestParsers(TestCase):
     def test_llh_line_parser(self):
-        given = '2022/08/03 07:35:30.600   37.413804352   23.350134190    44.1240   2  11   0.2400   0.2700   0.8700   0.0000   0.0000   0.0000   4.60    0.0'
+        given = '2022/08/03 07:35:30.600   37.413804352   23.350134190    44.1240   2  11   0.2400   ' \
+                '0.2700   0.8700   0.0000   0.0000   0.0000   4.60    0.0'
 
         got = emlid_fwf_line_parser(given)
 
@@ -16,7 +17,8 @@ class TestParsers(TestCase):
         self.assertEqual(44.1240, got.elevation)
 
     def test_pos_line_parser(self):
-        given = '2022/08/08 05:24:20.200   37.428194740   23.134118977    39.6114   2  16   0.8445   0.6919   2.4424  -0.1155   0.5825   0.8769   0.00    0.0'
+        given = '2022/08/08 05:24:20.200   37.428194740   23.134118977    39.6114   2  16   0.8445   0.6919   ' \
+                '2.4424  -0.1155   0.5825   0.8769   0.00    0.0'
 
         got = emlid_fwf_line_parser(given)
 

@@ -50,11 +50,10 @@ class CoordinatesCollection:
         :return: the dimensions height x width
         :rtype: a pair of float
         """
-        boundaries = self.lat_lon_boundaries()
-        return Coordinates(boundaries[0].lat, boundaries[0].lon).distance(
-            Coordinates(boundaries[1].lat, boundaries[0].lon)), \
-        Coordinates(boundaries[0].lat, boundaries[0].lon).distance(
-            Coordinates(boundaries[0].lat, boundaries[1].lon))
+        bound = self.lat_lon_boundaries()
+        dx = Coordinates(bound[0].lat, bound[0].lon).distance(Coordinates(bound[1].lat, bound[0].lon))
+        dy = Coordinates(bound[0].lat, bound[0].lon).distance(Coordinates(bound[0].lat, bound[1].lon))
+        return dx, dy
 
     def label_all(self, label: str):
         for p in self.points:

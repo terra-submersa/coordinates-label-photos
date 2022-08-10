@@ -33,7 +33,7 @@ class Coordinates:
         ).m
 
     def __repr__(self):
-        return '(%f, %f, %s) %s %s' % (self.lat, self.lon, self.elevation, self.label, self.timestamp)
+        return '(%.10f, %.10f, %s) %s %s' % (self.lat, self.lon, self.elevation, self.label, self.timestamp)
 
     def exif_gps(self):
         return {
@@ -45,6 +45,7 @@ class Coordinates:
             GPSIFD.GPSLatitude: self.exiv_lat(),
             GPSIFD.GPSLongitudeRef: self.lon_dir(),
             GPSIFD.GPSLongitude: self.exiv_lon(),
+            #GPSIFD.GPSHPositioningError: 0.4
         }
 
     def exiv_lat(self):
@@ -88,7 +89,7 @@ def to_abs_deg_min_sec(value):
     degrees = int(abs_value)
     rem = (abs_value - degrees) * 60
     minutes = int(rem)
-    seconds = round((rem - minutes) * 60, 5)
+    seconds = round((rem - minutes) * 60, 8)
     return degrees, minutes, seconds
 
 
@@ -103,7 +104,7 @@ def get_decimal_from_dms(dms, ref):
         minutes = -minutes
         seconds = -seconds
 
-    return round(degrees + minutes + seconds, 5)
+    return round(degrees + minutes + seconds, 8)
 
 
 def exif_to_coordinates(exif) -> Coordinates:

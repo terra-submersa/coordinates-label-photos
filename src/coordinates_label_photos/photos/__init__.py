@@ -32,7 +32,7 @@ def get_photo_timestamp(filename: str, default_time_offset: str = None) -> datet
         if default_time_offset is None:
             time_offset = '+0000'
         else:
-            time_offset =  default_time_offset
+            time_offset = default_time_offset
     else:
         time_offset = exif_dict['Exif'][piexif.ExifIFD.OffsetTimeOriginal].decode("utf-8")
 

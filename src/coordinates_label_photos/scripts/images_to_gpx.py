@@ -31,11 +31,12 @@ def main():
         gpx_segment.points.append(
             gpxpy.gpx.GPXTrackPoint(coord.lat, coord.lon, elevation=coord.elevation, time=coord.timestamp))
 
-    gpx_file=getattr(args, 'output')
+    gpx_file = getattr(args, 'output')
     with open(gpx_file, 'w') as fd_out:
         fd_out.write(gpx.to_xml())
         fd_out.close()
         logging.info('Saved %s points in GPX %s' % (len(photos), gpx_file))
+
 
 if __name__ == '__main__':
     main()

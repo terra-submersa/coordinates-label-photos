@@ -30,12 +30,12 @@ def main():
         required=False,
         metavar='+3:00'
     )
-    parser.add_argument \
-        ("--report-photo-locations",
-         help="an image filename where to report the photo locations",
-         type=str,
-         metavar='/path/to/report-photo-locations.jpeg'
-         )
+    parser.add_argument(
+        "--report-photo-locations",
+        help="an image filename where to report the photo locations",
+        type=str,
+        metavar='/path/to/report-photo-locations.jpeg'
+    )
     parser.add_argument(
         "--report-track",
         help="an image filename where to report the original GPS coordinates",
@@ -47,7 +47,8 @@ def main():
 
     photos = list_photo_filenames(getattr(args, 'images'))
     track_coords = coords_parser(args.coords)
-    photo_coords = calibrate_photo(photos=photos, track_coords=track_coords, default_time_offset= args.images_timestamp_offset)
+    photo_coords = calibrate_photo(photos=photos, track_coords=track_coords,
+                                   default_time_offset=args.images_timestamp_offset)
     if getattr(args, 'report_track') is not None:
         logging.info('Saving track %s' % getattr(args, 'report_track'))
         report_image_coordinates_collections(track_coords, getattr(args, 'report_track'), 1000)

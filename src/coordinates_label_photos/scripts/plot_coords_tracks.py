@@ -8,9 +8,9 @@ from coordinates_label_photos.reports.coordinates_collection import CoordinatesC
 
 def main():
     logging.basicConfig(level=logging.DEBUG)
-    parser = argparse.ArgumentParser(description='Plot gpx tracks')
+    parser = argparse.ArgumentParser(description='Plot coords tracks')
 
-    parser.add_argument("gpx", help='label and path to GPX file', type=str, nargs='+',
+    parser.add_argument("gpx", help='label and path to .gpx, or .llh, .pos file', type=str, nargs='+',
                         metavar='label:path/to/file.gpx')
     parser.add_argument("--output", help="output image with track points comparisons", type=str, required=True,
                         metavar='/path/to/output.jpeg')
