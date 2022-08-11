@@ -10,7 +10,8 @@ from coordinates_label_photos.coordinates.coordinates_collection import Coordina
 
 
 def list_photo_filenames(directory: str) -> 'list[str]':
-    ls = glob.glob('%s/*.jpeg' % directory)
+    ls = glob.glob(directory)
+    ls.extend(glob.glob('%s/*.jpeg' % directory))
     ls.extend(glob.glob('%s/*.jpg' % directory))
     ls.extend(glob.glob('%s/*.JPEG' % directory))
     ls.extend(glob.glob('%s/*.JPG' % directory))
@@ -39,15 +40,31 @@ def get_photo_timestamp(filename: str, default_time_offset: str = None) -> datet
     return datetime.strptime(time + ' ' + time_offset, '%Y:%m:%d %H:%M:%S %z')
 
 
-def calibrate_photo(photos: 'list[str]', track_coords: CoordinatesCollection,
-                    default_time_offset: str) -> CoordinatesCollection:
+def calibrate_photo(
+        photos: 'list[str]',
+        track_coords: CoordinatesCollection,
+        default_time_offset: str = None,
+        camera_vertical_offset: float = None,
+        horizontal_accuracy: float = None,
+        vertical_accuracy: float = None,
+        edit_photo: bool = True
+) -> CoordinatesCollection:
     photo_coords = []
     for p in tqdm(photos, desc="Calibrating photos"):
         timestamp = get_photo_timestamp(p, default_time_offset)
         coords = track_coords.interpolate_position(timestamp)
-        set_photo_exif(filename=p, ifd='GPS', data=coords.exif_gps())
+
+        if camera_vertical_offset is not None:
+            coords.elevation = coords.elevation + camera_vertical_offset
+        if horizontal_accuracy is not None:
+            coords.horiz_accuracy = horizontal_accuracy
+        if vertical_accuracy is not None:
+            coords.vert_accuracy = vertical_accuracy
+
+        if edit_photo:
+            set_photo_exif(filename=p, ifd='GPS', data=coords.exif_gps())
         # print('Saved: %s\t%s' % (p, coords))
-        coords.label = os.path.splitext(os.path.basename(p))[0]
+        coords.label = os.path.basename(p)
         photo_coords.append(coords)
     return CoordinatesCollection(photo_coords)
 
@@ -57,6 +74,7 @@ def set_photo_exif(filename: str, ifd: str, data: dict):
     exif_dict[ifd] = data
     exif_bytes = piexif.dump(exif_dict)
     piexif.insert(exif_bytes, filename)
+
 
 def clear_photo_exif(filename: str, ifd: str):
     """
@@ -70,7 +88,6 @@ def clear_photo_exif(filename: str, ifd: str):
     del exif_dict[ifd]
     exif_bytes = piexif.dump(exif_dict)
     piexif.insert(exif_bytes, filename)
-
 
 
 def get_photo_exif(filename: str):

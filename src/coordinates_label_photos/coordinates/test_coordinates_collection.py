@@ -73,3 +73,4 @@ class TestCoordinatesCollection(TestCase):
         self.assertEqual(7.021400593221188, got[0].lon)
         self.assertEqual(46.11953526735306, got[1].lat)
         self.assertEqual(7.021564207971096, got[1].lon)
+

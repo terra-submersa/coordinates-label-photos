@@ -93,9 +93,14 @@ def emlid_fwf_line_parser(line: str) -> Coordinates:
     lat = float(line[25:38])
     lon = float(line[39:53])
     elev = float(line[55:64])
+    sd_n = float(line[73:82])
+    sd_e = float(line[82:91])
+    sd_u = float(line[91:100])
     return Coordinates(
         lat=lat,
         lon=lon,
         elevation=elev,
-        timestamp=timestamp
+        timestamp=timestamp,
+        horiz_accuracy=max([sd_n, sd_e]) * 1.96,
+        vert_accuracy=sd_u * 1.96
     )

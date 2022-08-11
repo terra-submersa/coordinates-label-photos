@@ -14,15 +14,13 @@ To label all images from `/path/to/images-directory/*` with the GPX track points
 
     coordinates-label-photos --coords=/path/to/your.gpx --images=/path/to/images-directory
 
-With optional arguments:
-  * `--report-photo-locations=/path/to/report-photo-locations.jpeg` to generate an image with photo locations
-  * `--report-track=/path/to/report-track.jpeg` to generate an image with the track points
+Try `coordinates-label-photos --help` to see how to save image locations in a separate file, output reports, set accuracy and more.
 
 ## Other Utils
 
 A few side tools may come handy in some situations
 
-### Removing GPS infomration from pictures
+### Removing GPS information from pictures
 
     coordinates-clear-photos --images=/path/to/images-directory
 

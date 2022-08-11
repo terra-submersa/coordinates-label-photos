@@ -5,7 +5,7 @@ from coordinates_label_photos.parsers import emlid_fwf_line_parser
 
 
 class TestParsers(TestCase):
-    def test_llh_line_parser(self):
+    def test_emlid_llh_line_parser(self):
         given = '2022/08/03 07:35:30.600   37.413804352   23.350134190    44.1240   2  11   0.2400   ' \
                 '0.2700   0.8700   0.0000   0.0000   0.0000   4.60    0.0'
 
@@ -26,3 +26,5 @@ class TestParsers(TestCase):
         self.assertEqual(37.428194740, got.lat)
         self.assertEqual(23.134118977, got.lon)
         self.assertEqual(39.6114, got.elevation)
+        self.assertAlmostEqual(1.65522, got.horiz_accuracy, 8)
+        self.assertAlmostEqual(4.787104, got.vert_accuracy, 8)

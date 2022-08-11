@@ -11,19 +11,25 @@ class Coordinates:
     elevation: float
     timestamp: datetime
     label: str
+    horiz_accuracy: float
+    vert_accuracy: float
 
     def __init__(self,
                  lat: float,
                  lon: float,
                  elevation: float = None,
                  timestamp: datetime = None,
-                 label: str = None
+                 label: str = None,
+                 horiz_accuracy: float = None,
+                 vert_accuracy: float = None,
                  ):
         self.lat = lat
         self.lon = lon
         self.elevation = elevation
         self.timestamp = timestamp
         self.label = label
+        self.horiz_accuracy = horiz_accuracy
+        self.vert_accuracy = vert_accuracy
 
     def distance(self, other):
         return geopy.distance.distance(
@@ -77,7 +83,7 @@ def _to_rational(number: float):
     """
     returns a numerator,denominator pair
     """
-    f = Fraction(str(number))
+    f = Fraction(str(round(number, 10)))
     return f.numerator, f.denominator
 
 
