@@ -20,11 +20,11 @@ def load_coords_csv(filename) -> CoordinatesCollection:
         for row in reader:
             coords.append(
                 Coordinates(
-                    lat=float(row['latitude']),
-                    lon=float(row['longitude']),
-                    elevation=float(row['elevation']),
+                    lat=float(row['Latitude']),
+                    lon=float(row['Longitude']),
+                    elevation=float(row['Elevation']),
                     timestamp=None,
-                    label=row['name']
+                    label=row['Name']
                 )
             )
         collect = CoordinatesCollection(coords)
