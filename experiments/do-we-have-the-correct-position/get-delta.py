@@ -50,6 +50,43 @@ def get_image_computed_positions():
         }
 
 
+def std_deviation(values):
+    avg = sum(values) / len(values)
+    avg_abs=sum([abs(x) for x in values])/ len(values)
+    return avg_abs, (sum([(v - avg) ** 2 for v in values]) / len(values)) ** 0.5
+
+
+def print_delta_direct_call(track_coords, delta_ts):
+    avg_easting, avg_northing, std_easting, std_northings = get_0_position()
+
+    photos = list_photo_filenames('measures/images/*.JPG')
+
+    photo_coords = calibrate_photo(
+        photos=photos,
+        track_coords=track_coords,
+        photo_timezone_offset='+03:00',
+        photo_timestamp_correction=time_shift+ delta_ts,
+        camera_fixed_elevation=0,
+        horizontal_accuracy=0,
+        vertical_accuracy=0,
+        edit_photo=False
+    )
+    photo_coords.points.sort(key=lambda p: p.label)
+    estimated_positions = get_image_estimated_positions()
+
+    csr_transfo = crs_transformer_deg_epsg('32634')
+    dys = []
+    for photo_coords in photo_coords.points:
+        name = photo_coords.label
+        computed_easting, computed_northing = csr_transfo.transform(photo_coords.lon, photo_coords.lat)
+        # print(photo_coords)
+        computed_delta = computed_northing + camera_shift - avg_northing
+        dys.append(computed_delta - estimated_positions[name])
+
+    avg, stdev = std_deviation(dys)
+    print('%.3f %.3f %.3f' % (delta_ts, avg, stdev))
+
+
 if __name__ == '__main__':
     avg_easting, avg_northing, std_easting, std_northings = get_0_position()
     print('avg easting/northing (stddev): %f (%f), %f (%f)' % (avg_easting, std_easting, avg_northing, std_northings))
@@ -75,3 +112,8 @@ if __name__ == '__main__':
             estimated_positions[name],
             computed_delta - estimated_positions[name])
               )
+
+    print('time shift error error abs average error stddev')
+    for ts in [-2, -1, -0.5, -0.25, -0.1, 0, 0.1, 0.25, 0.5, 1, 2]:
+        print_delta_direct_call(track_coords, ts)
+
