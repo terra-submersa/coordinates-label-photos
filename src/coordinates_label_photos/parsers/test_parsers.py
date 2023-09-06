@@ -15,6 +15,7 @@ class TestParsers(TestCase):
         self.assertEqual(37.413804352, got.lat)
         self.assertEqual(23.350134190, got.lon)
         self.assertEqual(44.1240, got.elevation)
+        self.assertEqual('FLOAT', got.positioning_quality)
 
     def test_pos_line_parser(self):
         given = '2022/08/08 05:24:20.200   37.428194740   23.134118977    39.6114   2  16   0.8445   0.6919   ' \
@@ -28,3 +29,5 @@ class TestParsers(TestCase):
         self.assertEqual(39.6114, got.elevation)
         self.assertAlmostEqual(1.65522, got.horiz_accuracy, 8)
         self.assertAlmostEqual(4.787104, got.vert_accuracy, 8)
+        self.assertEqual('FLOAT', got.positioning_quality)
+

@@ -31,14 +31,14 @@ def crs_wgs84_utm_tile(coords: CoordinatesCollection):
     return name.replace('WGS 84 / UTM zone ', 'WGS84 UTM ')
 
 
-def crs_transformer_deg_utm(epsg_code: str) -> Transformer:
+def crs_transformer_deg_epsg(target_epsg_code: str) -> Transformer:
     """
     From a given coords collection, gives the transformation function long/lat -> x/y
-    :param epsg_code: the area EPSG code
-    :type epsg_code: str
+    :param target_epsg_code: the target area EPSG code
+    :type target_epsg_code: str
     :return: a pyproj transformer object
     :rtype: pyproj.Transformer
     """
     crs_latlon = CRS.from_epsg('4326') # WGS84
-    crs = CRS.from_epsg(epsg_code)
+    crs = CRS.from_epsg(target_epsg_code)
     return Transformer.from_crs(crs_latlon.geodetic_crs, crs, always_xy=True)
