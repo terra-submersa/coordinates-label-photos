@@ -24,7 +24,8 @@ def get_photo_timestamp(
         timestamp_correction:float = None
     ) -> datetime:
     """
-    ¨¨Get the timestamp from the EXIF data stored in the photo under filename
+    ¨¨Get the timestamp from the EXIF data stored in the photo under filename.
+    Add the millisecond timestamp if you have installed the GoPro Lab plugin https://gopro.github.io/labs/control/precisiontime/.
     :param filename:
     :type filename: str
     :param timezone_offset: set the photo time zone delta (format '+2:00') in case the picture is not annotated (no GPS signal)
@@ -44,11 +45,11 @@ def get_photo_timestamp(
         time_offset = exif_dict['Exif'][piexif.ExifIFD.OffsetTimeOriginal].decode("utf-8")
 
     dt =  datetime.strptime(time + ' ' + time_offset, '%Y:%m:%d %H:%M:%S %z')
+    if ('Exif' in exif_dict) and piexif.ExifIFD.SubSecTime in exif_dict['Exif']:
+        sub_sec_time=float(exif_dict['Exif'][piexif.ExifIFD.SubSecTime].decode("utf-8"))
+        dt = dt + timedelta(seconds=sub_sec_time/1000)
 
-    print('ouet')
     if timestamp_correction is not None:
-        print(dt)
-        print(dt + timedelta(seconds=timestamp_correction))
         dt = dt + timedelta(seconds=timestamp_correction)
     return dt
 
@@ -66,6 +67,7 @@ def calibrate_photo(
     photo_coords = []
     for p in tqdm(photos, desc="Calibrating photos"):
         timestamp = get_photo_timestamp(p, photo_timezone_offset, photo_timestamp_correction)
+        # print('Photo %s taken at %s' % (p, timestamp))
         coords = track_coords.interpolate_position(timestamp)
 
         if camera_fixed_elevation is not None:

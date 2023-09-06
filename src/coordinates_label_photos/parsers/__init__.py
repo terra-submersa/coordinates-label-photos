@@ -1,7 +1,7 @@
 import csv
 import logging
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 import gpxpy as gpxpy
 
@@ -18,6 +18,13 @@ class NoParserForCoordinateFormatError:
 
 
 def coords_parser(filename) -> CoordinatesCollection:
+    """
+    Read coordinates from various file format
+    :param filename:
+    :type filename:
+    :return:
+    :rtype:
+    """
     logging.info('Loading coordinates track from %s' % filename)
     _, file_extension = os.path.splitext(filename)
     file_extension = file_extension.lower()
@@ -73,13 +80,27 @@ def csv_parser(filename) -> CoordinatesCollection:
 
 
 def emlid_fwf_parser(filename) -> CoordinatesCollection:
+    """
+    Parse Emlid fixed width format.
+    IF a .pos file, check the last comment list for GPST and eventually correct the infamous 18 seconds
+    :param filename: the source file path
+    :type filename: string
+    :return: the list of coordinates
+    :rtype: CoordinatesCollection
+    """
     logging.info('Loading Emlid .LLH or .POS from %s' % filename)
+
+    is_gpst = False
     with open(filename) as fd:
         coords = []
         for line in fd.readlines():
             if line.startswith('%'):
+                if 'GPST' in line:
+                    is_gpst = True
                 continue
             c = emlid_fwf_line_parser(line)
+            if is_gpst:
+                c.timestamp = c.timestamp + timedelta(seconds=-18)
             coords.append(c)
         return CoordinatesCollection(coords)
 
@@ -102,5 +123,16 @@ def emlid_fwf_line_parser(line: str) -> Coordinates:
         elevation=elev,
         timestamp=timestamp,
         horiz_accuracy=max([sd_n, sd_e]) * 1.96,
-        vert_accuracy=sd_u * 1.96
+        vert_accuracy=sd_u * 1.96,
+        positioning_quality=__positioning_qualitiy[int(line[67:70])]
     )
+
+
+__positioning_qualitiy = {
+    1: 'FIX',
+    2: 'FLOAT',
+    3: 'SBAS',
+    4: 'DGPS',
+    5: 'SINGLE',
+    6: 'PPP'
+}

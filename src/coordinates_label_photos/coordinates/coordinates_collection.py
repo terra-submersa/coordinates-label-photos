@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 
 from coordinates_label_photos.coordinates import Coordinates
@@ -25,6 +26,13 @@ class CoordinatesCollection:
         if timestamp < self.start_time() or timestamp >= self.end_time():
             return None
         bracket = self.__find_bracket(timestamp)
+        if (bracket[0].positioning_quality is not None) and (bracket[0].positioning_quality != 'FIX'):
+            logging.warning('bracket boundary at timme %s positioning quality %s is not "FIX"' % (
+            bracket[0].timestamp, bracket[0].positioning_quality))
+        elif (bracket[1].positioning_quality is not None) and (bracket[1].positioning_quality != 'FIX'):
+            logging.warning('bracket boundary at timme %s positioning quality %s is not "FIX"' % (
+                bracket[1].timestamp, bracket[1].positioning_quality))
+
         alpha = (timestamp - bracket[0].timestamp).total_seconds() / (
                 bracket[1].timestamp - bracket[0].timestamp).total_seconds()
         return Coordinates(
@@ -73,7 +81,7 @@ class CoordinatesCollection:
                 i1 = i_mid
             else:
                 i0 = i_mid
-        return self.points[i0], self.points[i1]
+        return self.points[i0], self.points[i1],
 
     def __repr__(self):
         return '\n'.join([str(c) for c in self.points])

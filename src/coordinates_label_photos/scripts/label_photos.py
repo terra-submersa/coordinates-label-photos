@@ -93,6 +93,11 @@ def main():
 
     photos = list_photo_filenames(getattr(args, 'images'))
     track_coords = coords_parser(args.coords)
+    print('%d recorded coordinates between %s and %s'%(
+        len(track_coords),
+        track_coords.start_time(),
+        track_coords.end_time()
+    ))
     photo_coords = calibrate_photo(
         photos=photos,
         track_coords=track_coords,

@@ -13,6 +13,7 @@ class Coordinates:
     label: str
     horiz_accuracy: float
     vert_accuracy: float
+    positioning_quality: str
 
     def __init__(self,
                  lat: float,
@@ -22,6 +23,7 @@ class Coordinates:
                  label: str = None,
                  horiz_accuracy: float = None,
                  vert_accuracy: float = None,
+                 positioning_quality: str = None
                  ):
         self.lat = lat
         self.lon = lon
@@ -30,6 +32,7 @@ class Coordinates:
         self.label = label
         self.horiz_accuracy = horiz_accuracy
         self.vert_accuracy = vert_accuracy
+        self.positioning_quality = positioning_quality
 
     def distance(self, other):
         return geopy.distance.distance(

@@ -51,3 +51,6 @@ From a directory containing images (with GPS locations), create a GPX file:
 ### License 
 MIT
 
+## Development
+
+
