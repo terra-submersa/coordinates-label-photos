@@ -106,7 +106,7 @@ Capturing the right time shift is therefore a crucial importance if we don't wan
 
 
 ### Magic 880ms: the photo trigger timestamp vs the actual picture taken estimation
-Any digital camera has a delay between the moment the picture is triggered and the moment it is actually taken.
+Any digital camera has a lag between the moment the picture is triggered and the moment it is actually recorded.
 On the Gropro Hero 8, this delay is not neglectible.
 At a swimming speed of 2 km/h, a one second delay is roughly 0.56 meters.
 #### Empirical estimation
@@ -123,13 +123,14 @@ The 880ms delay is a problem, because it is not constant. It depends on many fac
 The first solution is to use a camera with a lower delay. The GoPro Hero 8 is not the best choice, but it was the only one we had on the field. 
 But except if this delay is below 50 ms, we will still have a problem.
 
-The second solution is to check if some water-proof cameras (suited for photogrammetry) populate the image EXIF metadata with more relevant attributes, such as `DateTimeDigitized` or `DateTimeOffset`.
+The second solution is to check if some water-proof cameras (suited for photogrammetry) populate the image EXIF metadata with more relevant attributes.
+
+*Answer*: the GoPro 11 do not have richer attributes in the EXIF metadata. It however reports `SubSecTime` by default
 
 A third solution would be to have a high precision clock and drop it in the water, to compare picture time with the actual one.
 After the Ground Control Points, we might need Time Control Points.
 
 #### Setting the camera time with high precision.
 For the GoPro Hero 8, the default application set the time rounded to the second.
-Fortunately, a developer firmare allows to enhance the precision.
+Fortunately, a developer firmware allows to enhance the precision.
 More recent models claim to set the time from the GPS information. we shall check if the precision is set to the millisecond...
-

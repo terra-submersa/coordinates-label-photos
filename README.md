@@ -53,4 +53,18 @@ MIT
 
 ## Development
 
+### Setup
 
+    python3 -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+
+### Testing
+
+    pytest
+
+### PIPy deployment
+
+    rm dist/*
+    python3.11 -m build
+    python3.11 -m twine upload dist/*
