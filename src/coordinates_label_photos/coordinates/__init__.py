@@ -84,9 +84,9 @@ class Coordinates:
 
 def _to_rational(number: float):
     """
-    returns a numerator,denominator pair
+    returns a numerator,denominator pair. Truncated the number to 7 decimals, to avoid  > long klimit in exif
     """
-    f = Fraction(str(round(number, 10)))
+    f = Fraction(str(round(number, 7)))
     return f.numerator, f.denominator
 
 

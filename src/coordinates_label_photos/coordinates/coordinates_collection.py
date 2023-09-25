@@ -24,6 +24,7 @@ class CoordinatesCollection:
 
     def interpolate_position(self, timestamp: datetime):
         if timestamp < self.start_time() or timestamp >= self.end_time():
+            logging.error('timestamp %s is out of bounds [%s, %s]' % (timestamp, self.start_time(), self.end_time()))
             return None
         bracket = self.__find_bracket(timestamp)
         if (bracket[0].positioning_quality is not None) and (bracket[0].positioning_quality != 'FIX'):

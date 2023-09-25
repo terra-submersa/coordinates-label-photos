@@ -65,6 +65,13 @@ MIT
 
 ### PIPy deployment
 
+Increase the version in `setup.cfg`.
+### Github release.
+
+Juste create a new release on github and let the action flow.
+
+####  dev laptop release
+
     rm dist/*
     python3.11 -m build
     python3.11 -m twine upload dist/*
