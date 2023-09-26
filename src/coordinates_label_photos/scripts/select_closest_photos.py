@@ -22,7 +22,7 @@ def load_coords_csv(filename) -> CoordinatesCollection:
             if 'latitude' not in row:
                 lat = row['Latitude']
             else:
-                lat = row['Latitude']
+                lat = row['latitude']
             if 'longitude' not in row:
                 lon = row['Longitude']
             else:
