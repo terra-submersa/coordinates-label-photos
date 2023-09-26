@@ -31,6 +31,10 @@ def load_coords_csv(filename) -> CoordinatesCollection:
                 elevation = row['Elevation']
             else:
                 elevation = row['ellipsoidal height']
+            if 'name' not in row:
+                name = row['Name']
+            else:
+                name = row['name']
 
             coords.append(
                 Coordinates(
@@ -38,7 +42,7 @@ def load_coords_csv(filename) -> CoordinatesCollection:
                     lon=float(lon),
                     elevation=float(elevation),
                     timestamp=None,
-                    label=row['Name']
+                    label=name
                 )
             )
         collect = CoordinatesCollection(coords)
