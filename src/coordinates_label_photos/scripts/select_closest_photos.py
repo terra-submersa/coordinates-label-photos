@@ -18,11 +18,25 @@ def load_coords_csv(filename) -> CoordinatesCollection:
         coords = []
 
         for row in reader:
+            # select 'Latitude' or 'latitude' element (and so on) to cover legacy Emlid export format
+            if 'latitude' not in row:
+                lat = row['Latitude']
+            else:
+                lat = row['Latitude']
+            if 'longitude' not in row:
+                lon = row['Longitude']
+            else:
+                lon = row['longitude']
+            if 'ellipsoidal height' not in row:
+                elevation = row['Elevation']
+            else:
+                elevation = row['ellipsoidal height']
+
             coords.append(
                 Coordinates(
-                    lat=float(row['Latitude']),
-                    lon=float(row['Longitude']),
-                    elevation=float(row['Elevation']),
+                    lat=float(lat),
+                    lon=float(lon),
+                    elevation=float(elevation),
                     timestamp=None,
                     label=row['Name']
                 )
